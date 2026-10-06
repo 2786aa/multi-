@@ -1,0 +1,13 @@
+# Android build files
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/*.iml
+android/app/*.iml
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.log

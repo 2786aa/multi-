@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cyber-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiCloner Studio - Multi-Instance App Workspace</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container" class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <div class="logo-icon">
+                        <span class="clone-glow"></span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="8" y="8" width="13" height="13" rx="3" ry="3"></rect>
+                            <path d="M5 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </div>
+                    <div class="brand-info">
+                        <h2>MultiCloner</h2>
+                        <span class="brand-badge">STUDIO v2.5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action: Add Clone -->
+            <div class="sidebar-action">
+                <button class="btn-create-clone" id="btn-open-clone-modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    <span>Clone New App</span>
+                </button>
+            </div>
+
+            <!-- Cloned Instances List -->
+            <div class="clones-nav-section">
+                <div class="section-title">
+                    <span>ACTIVE INSTANCES</span>
+                    <span class="instance-counter" id="instance-count-badge">0/20</span>
+                </div>
+                <div class="instances-list" id="instances-nav-list">
+                    <!-- Dynamic instances injected here -->
+                </div>
+            </div>
+
+            <!-- Built-in Micro Tools Section -->
+            <div class="clones-nav-section micro-tools-section">
+                <div class="section-title">
+                    <span>WORKBENCH TOOLS</span>
+                </div>
+                <div class="quick-tools-grid">
+                    <button class="tool-chip" id="tool-scratchpad-btn" title="Quick Notes Scratchpad">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        <span>Notes</span>
+                    </button>
+                    <button class="tool-chip" id="tool-calc-btn" title="Quick Calculator">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01"/></svg>
+                        <span>Calc</span>
+                    </button>
+                    <button class="tool-chip" id="tool-privacy-btn" title="Privacy Lock">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span>Lock</span>
+                    </button>
+                    <button class="tool-chip" id="tool-proxy-btn" title="Network & User Agent">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span>UA Agent</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sidebar Footer Settings -->
+            <div class="sidebar-footer">
+                <div class="user-session-info">
+                    <div class="session-avatar">🚀</div>
+                    <div class="session-meta">
+                        <span class="session-name">Sandbox Mode</span>
+                        <span class="session-status"><span class="pulse-dot"></span> Isolated Storage</span>
+                    </div>
+                </div>
+                <div class="footer-actions">
+                    <button class="icon-btn" id="btn-theme-toggle" title="Switch Theme">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+                    <button class="icon-btn" id="btn-open-settings" title="Settings">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="main-workspace">
+            <!-- Top Control Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <button class="mobile-menu-btn" id="sidebar-toggle" title="Toggle Sidebar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <!-- Tabs Bar for Active Single View / Multi-Tab Selection -->
+                    <div class="active-tabs-container" id="tabs-bar">
+                        <!-- Injected App Tabs -->
+                    </div>
+                </div>
+
+                <!-- Layout Switcher & Workspace Controls -->
+                <div class="top-bar-right">
+                    <div class="layout-selector-group">
+                        <span class="layout-label">View Layout:</span>
+                        <div class="layout-btn-group">
+                            <button class="layout-btn active" data-layout="single" title="Single App View (Full)">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                                <span>Single</span>
+                            </button>
+                            <button class="layout-btn" data-layout="split-2" title="Dual Split View (Side-by-Side)">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+                                <span>2-Split</span>
+                            </button>
+                            <button class="layout-btn" data-layout="split-3" title="Triple Split View">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="10" y1="3" x2="10" y2="21"/><line x1="17" y1="3" x2="17" y2="21"/></svg>
+                                <span>3-Split</span>
+                            </button>
+                            <button class="layout-btn" data-layout="grid-4" title="2x2 Grid View (4 Instances)">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+                                <span>4-Grid</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="top-actions">
+                        <button class="action-btn-accent" id="btn-sync-refresh" title="Reload Active Instances">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                            <span>Sync</span>
+                        </button>
+                        <button class="action-btn-icon" id="btn-fullscreen" title="Toggle Fullscreen">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Clones Screen Canvas Grid/Container -->
+            <section class="workspace-viewport" id="viewport-canvas">
+                <!-- Empty Welcome State (if no instances) -->
+                <div class="empty-state" id="empty-state-view">
+                    <div class="empty-card">
+                        <div class="empty-icon-ring">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="13" height="13" rx="3" ry="3"/><path d="M5 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1"/></svg>
+                        </div>
+                        <h2>No App Clones Running</h2>
+                        <p>Create multiple instances of WhatsApp, Telegram, Discord, Notion, or any Web App with isolated sessions and side-by-side multi-view.</p>
+                        <div class="empty-actions">
+                            <button class="btn-primary-large" id="btn-empty-add">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                                <span>Create Your First Clone</span>
+                            </button>
+                            <button class="btn-secondary-large" id="btn-load-demo">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                <span>Load Demo Multi-Set</span>
+                            </button>
+                        </div>
+
+                        <!-- Popular App Presets Preview -->
+                        <div class="preset-pills-row">
+                            <span class="preset-tag" data-preset="whatsapp">💬 WhatsApp Dual</span>
+                            <span class="preset-tag" data-preset="telegram">✈️ Telegram Multi</span>
+                            <span class="preset-tag" data-preset="discord">🎮 Discord Parallel</span>
+                            <span class="preset-tag" data-preset="chatgpt">🤖 ChatGPT Matrix</span>
+                            <span class="preset-tag" data-preset="twitter">🐦 X/Twitter Multi</span>
+                            <span class="preset-tag" data-preset="notion">📓 Notion Work & Personal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Cloned Instance Frames Mount Here -->
+                <div class="instances-matrix-grid layout-single" id="matrix-grid">
+                    <!-- Cloned Frames dynamically created here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL 1: Clone New App / App Store Presets -->
+    <div class="modal-backdrop" id="modal-clone-app">
+        <div class="modal-dialog glass-panel">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon-badge">✨</div>
+                    <div>
+                        <h3>Clone an Application</h3>
+                        <p>Select a preset app or enter any web URL to create an isolated clone instance</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" data-close="modal-clone-app">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Preset Apps Catalog -->
+                <div class="presets-section">
+                    <label class="input-label">POPULAR APPS READY TO CLONE</label>
+                    <div class="preset-cards-grid" id="preset-cards-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="divider-text"><span>OR CUSTOM WEB APP</span></div>
+
+                <!-- Custom URL / App Form -->
+                <form id="form-custom-clone" class="custom-clone-form">
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="clone-name">Instance Name / Label</label>
+                            <input type="text" id="clone-name" placeholder="e.g. WhatsApp Work, Client Discord, Personal Notion" required>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="clone-tag">Account Tag</label>
+                            <input type="text" id="clone-tag" placeholder="e.g. Work, Personal, Account #2" value="Account 1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clone-url">App / Web URL</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <input type="url" id="clone-url" placeholder="https://web.whatsapp.com or https://example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label>Instance Color Theme</label>
+                            <div class="color-picker-row" id="clone-color-picker">
+                                <span class="color-dot active" data-color="#6366f1" style="background:#6366f1"></span>
+                                <span class="color-dot" data-color="#10b981" style="background:#10b981"></span>
+                                <span class="color-dot" data-color="#06b6d4" style="background:#06b6d4"></span>
+                                <span class="color-dot" data-color="#ec4899" style="background:#ec4899"></span>
+                                <span class="color-dot" data-color="#f59e0b" style="background:#f59e0b"></span>
+                                <span class="color-dot" data-color="#8b5cf6" style="background:#8b5cf6"></span>
+                                <span class="color-dot" data-color="#ef4444" style="background:#ef4444"></span>
+                            </div>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="clone-icon-select">Icon / Emoji</label>
+                            <input type="text" id="clone-icon-select" value="⚡" maxlength="4" class="emoji-input">
+                        </div>
+                    </div>
+
+                    <div class="form-options-box">
+                        <label class="toggle-option">
+                            <input type="checkbox" id="clone-isolated-storage" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">
+                                <strong>Enable Isolated Sandbox</strong>
+                                <small>Maintains separate local state, cookies simulation, and instance notes</small>
+                            </span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="checkbox" id="clone-open-immediately" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">
+                                <strong>Open in workspace immediately</strong>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="modal-footer-actions">
+                        <button type="button" class="btn-cancel" data-close="modal-clone-app">Cancel</button>
+                        <button type="submit" class="btn-submit">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                            <span>Launch Instance Clone</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Scratchpad / Notes Drawer -->
+    <div class="side-drawer" id="drawer-scratchpad">
+        <div class="drawer-header">
+            <div class="drawer-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                <h3>Instance Quick Scratchpad</h3>
+            </div>
+            <button class="drawer-close-btn" data-close="drawer-scratchpad">&times;</button>
+        </div>
+        <div class="drawer-body">
+            <div class="scratchpad-scope-selector">
+                <label>Target Instance:</label>
+                <select id="scratchpad-instance-select">
+                    <option value="global">🌐 Global Workspace Notes</option>
+                </select>
+            </div>
+            <textarea id="scratchpad-textarea" placeholder="Type quick credentials, clipboard notes, links, task notes for this specific instance... Automatically saved!"></textarea>
+            <div class="scratchpad-footer">
+                <span class="save-status" id="scratchpad-status">✓ All changes saved locally</span>
+                <button class="btn-ghost-sm" id="btn-copy-scratchpad">Copy Text</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Mini Calculator -->
+    <div class="floating-tool-box" id="calc-tool-box" style="display:none;">
+        <div class="floating-header">
+            <span>🧮 Fast Calculator</span>
+            <button class="btn-close-calc" id="btn-close-calc">&times;</button>
+        </div>
+        <div class="calc-body">
+            <input type="text" id="calc-display" readonly value="0">
+            <div class="calc-grid">
+                <button class="calc-key op" data-key="C">C</button>
+                <button class="calc-key op" data-key="DEL">⌫</button>
+                <button class="calc-key op" data-key="%">%</button>
+                <button class="calc-key op" data-key="/">÷</button>
+                
+                <button class="calc-key" data-key="7">7</button>
+                <button class="calc-key" data-key="8">8</button>
+                <button class="calc-key" data-key="9">9</button>
+                <button class="calc-key op" data-key="*">×</button>
+                
+                <button class="calc-key" data-key="4">4</button>
+                <button class="calc-key" data-key="5">5</button>
+                <button class="calc-key" data-key="6">6</button>
+                <button class="calc-key op" data-key="-">-</button>
+                
+                <button class="calc-key" data-key="1">1</button>
+                <button class="calc-key" data-key="2">2</button>
+                <button class="calc-key" data-key="3">3</button>
+                <button class="calc-key op" data-key="+">+</button>
+                
+                <button class="calc-key" data-key="0">0</button>
+                <button class="calc-key" data-key=".">.</button>
+                <button class="calc-key equal" data-key="=">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: User Agent / Proxy Settings -->
+    <div class="modal-backdrop" id="modal-agent-config">
+        <div class="modal-dialog glass-panel max-w-500">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon-badge">🌐</div>
+                    <div>
+                        <h3>Browser & Device Profile</h3>
+                        <p>Simulate mobile, desktop, or tablet sessions per instance</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" data-close="modal-agent-config">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Simulated Device User-Agent</label>
+                    <select id="user-agent-preset" class="select-full">
+                        <option value="default">Default Chrome Desktop (Windows 11)</option>
+                        <option value="mac">macOS Safari Desktop</option>
+                        <option value="iphone">iPhone 15 Pro (Mobile Safari)</option>
+                        <option value="android">Samsung Galaxy S24 (Chrome Mobile)</option>
+                        <option value="ipad">iPad Pro (Tablet View)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Multi-Tab Iframe Isolation Engine</label>
+                    <div class="info-alert">
+                        <span>🛡️ <strong>Sandboxed Origin Isolation</strong> is enabled. Web apps with strict iframe policies will open seamlessly with native web fallback and multi-window sync.</span>
+                    </div>
+                </div>
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn-primary-large full-width" data-close="modal-agent-config">Apply Configuration</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: Privacy PIN Screen Lock -->
+    <div class="screen-lock-overlay" id="screen-lock-overlay" style="display:none;">
+        <div class="lock-card glass-panel">
+            <div class="lock-avatar">🔒</div>
+            <h2>MultiCloner Locked</h2>
+            <p>Enter your 4-digit PIN to access cloned instances</p>
+            <div class="pin-dots" id="pin-dots">
+                <span class="pin-dot"></span>
+                <span class="pin-dot"></span>
+                <span class="pin-dot"></span>
+                <span class="pin-dot"></span>
+            </div>
+            <div class="pin-keypad">
+                <button class="pin-btn" data-val="1">1</button>
+                <button class="pin-btn" data-val="2">2</button>
+                <button class="pin-btn" data-val="3">3</button>
+                <button class="pin-btn" data-val="4">4</button>
+                <button class="pin-btn" data-val="5">5</button>
+                <button class="pin-btn" data-val="6">6</button>
+                <button class="pin-btn" data-val="7">7</button>
+                <button class="pin-btn" data-val="8">8</button>
+                <button class="pin-btn" data-val="9">9</button>
+                <button class="pin-btn op" data-val="clear">Clear</button>
+                <button class="pin-btn" data-val="0">0</button>
+                <button class="pin-btn op" data-val="back">⌫</button>
+            </div>
+            <div class="pin-hint">Default PIN: <strong>1234</strong> (Change in Settings)</div>
+        </div>
+    </div>
+
+    <!-- MODAL 6: General Settings -->
+    <div class="modal-backdrop" id="modal-settings">
+        <div class="modal-dialog glass-panel">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon-badge">⚙️</div>
+                    <div>
+                        <h3>Workspace & Cloner Settings</h3>
+                        <p>Configure storage, themes, security PIN, and instance rules</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" data-close="modal-settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h4>Appearance Theme</h4>
+                    <div class="theme-options-grid" id="theme-options">
+                        <button class="theme-card active" data-theme="cyber-dark">
+                            <span class="theme-preview" style="background:#0f172a; border-color:#6366f1;"></span>
+                            <span>Cyber Dark</span>
+                        </button>
+                        <button class="theme-card" data-theme="neon-night">
+                            <span class="theme-preview" style="background:#09090b; border-color:#06b6d4;"></span>
+                            <span>Neon Matrix</span>
+                        </button>
+                        <button class="theme-card" data-theme="sunset-purple">
+                            <span class="theme-preview" style="background:#1e102d; border-color:#ec4899;"></span>
+                            <span>Sunset AMOLED</span>
+                        </button>
+                        <button class="theme-card" data-theme="emerald-forest">
+                            <span class="theme-preview" style="background:#061a14; border-color:#10b981;"></span>
+                            <span>Emerald Pro</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Security & PIN Lock</h4>
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label>4-Digit Security PIN</label>
+                            <input type="password" id="setting-pin-code" value="1234" maxlength="4">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label>Auto-Lock Timer</label>
+                            <select id="setting-autolock">
+                                <option value="0">Disabled</option>
+                                <option value="5">After 5 Minutes</option>
+                                <option value="15">After 15 Minutes</option>
+                                <option value="30">After 30 Minutes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h4>Instance Data & Reset</h4>
+                    <div class="data-management-row">
+                        <button class="btn-ghost-sm" id="btn-export-backup">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Backup Instances (JSON)</span>
+                        </button>
+                        <button class="btn-ghost-sm" id="btn-import-backup-trigger">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span>Import Backup</span>
+                        </button>
+                        <input type="file" id="file-import-backup" accept=".json" style="display:none;">
+                        <button class="btn-danger-sm" id="btn-wipe-data">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            <span>Reset All Clones</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer-actions">
+                <button type="button" class="btn-primary-large" data-close="modal-settings">Save & Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
